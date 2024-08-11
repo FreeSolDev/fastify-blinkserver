@@ -4,7 +4,8 @@ const fastify = require('fastify')({
   logger:true,
   trustProxy: false
 })
-const Port=3000
+const settings=require('./config')
+const Port=settings.Port
 // work around a node v20 bug: https://github.com/nodejs/node/issues/47822#issuecomment-1564708870
 if (net.setDefaultAutoSelectFamily) {
   net.setDefaultAutoSelectFamily(false);

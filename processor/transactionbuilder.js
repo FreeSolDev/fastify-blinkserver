@@ -1,5 +1,6 @@
 const web3 =require('@solana/web3.js');
-const connection = new web3.Connection("https://api.mainnet-beta.solana.com",'confirmed');
+const settings=require('../config')
+const connection = new web3.Connection(settings.localhost?settings.devnet:settings.mainnet,'confirmed');
 let TransActionBuilder={
       TRANSFER:{
         Sol:async (from,to,amount)=>{
