@@ -25,8 +25,8 @@ Array.prototype.forEachAsync = async function (fn) {
   global.jitotx=0
 let settings={
     Host:os.hostname(),
-    Port:os.hostname()=="freesoldev"?80:3002,
-    localhost:os.hostname()=="freesoldev"?true:false,
+    Port:3002,
+    localhost:os.networkInterfaces()["lo0"][0].address=="127.0.0.1"?true:false,
     mainnet:"https://api.mainnet-beta.solana.com", 
     devnet:"https://api.devnet.solana.com",
 }
