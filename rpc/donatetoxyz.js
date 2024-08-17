@@ -1,7 +1,8 @@
-const Transactionbuilder=require("../processor/transactionbuilder")
+const Transactionbuilder=require("../processor/transactionbuilder").TransActionBuilder
+const blinkinfo=require("../processor/transactionbuilder").blinkinfo
 async function routes(router){
 
-  router.options('/blink/donatesoltoxyz', async (request, reply) => {
+  router.options(`/blink/${blinkinfo.title}`, async (request, reply) => {
     reply
       .header('Access-Control-Allow-Origin', '*')
       .header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
@@ -11,16 +12,16 @@ async function routes(router){
       .send();
     });
 
-    router.get('/blink/donatesoltoxyz', async(req, res) => {
+    router.get(`/blink/${blinkinfo.title}`, async(req, res) => {
       let json={
         "title": "Donate Sol to XYZ",
         "icon": "https://shdw-drive.genesysgo.net/CdQkmeEugcgq5xWiJvQMkq9umumvActkygX8zk2sHarQ/jusmntloading.gif",
-        "description": "Donate 0.01 sol to xyz",
+        "description": `Donate ${blinkinfo.donation_amount} sol to ${blinkinfo.donation_destination}`,
         "links": {
           "actions": [
             {
               "label": "Donate Now", 
-              "href": "/blink/donatesoltoxyz"
+              "href": `/blink/${blinkinfo.title}`
             }
           ]
         }
@@ -28,13 +29,12 @@ async function routes(router){
       res.send(json)
       })
             
-      router.post('/blink/donatesoltoxyz', async(req, res,) => {
+      router.post(`/blink/${blinkinfo.title}`, async(req, res,) => {
 
-        const destination="a6LrgonoWkpfjWmpuX15Xdfnn48LZjnuJZnKVFmXiFo"
-
-        const amount=0.01
-
-        const results=await Transactionbuilder.TRANSFER.Sol(req.body.account,destination,amount)
+        const results=await Transactionbuilder.TRANSFER.Sol(
+          req.body.account,
+          blinkinfo.donation_destination,
+          blinkinfo.donation_amount)
         
         if(results===undefined){
           res.send({error:"Try Again"})
@@ -45,7 +45,7 @@ async function routes(router){
 
         }else{
 
-          res.send({transaction:results,message:"Succesfully Donated 0.01 sol to xyz"})
+          res.send({transaction:results,message:`Succesfully Donated ${blinkinfo.donation_amount} sol to xyz`})
 
         }
       })
