@@ -38,18 +38,25 @@ async function routes(router){
         
         if(results===undefined){
           res.send({error:"Try Again"})
-
-        }else if(results.error){
-
-          res.send({error:results.error})
-
         }else{
-
-          res.send({transaction:results,message:`Succesfully Donated ${blinkinfo.donation_amount} sol to xyz`})
-
+          res.send(results)
         }
       })
-   
+      
+      router.post(`/blink/${blinkinfo.title}-umi`, async(req, res,) => {
+
+        const results=await Transactionbuilder.UMITRANSFER.Sol(
+          req.body.account,
+          blinkinfo.donation_destination,
+          blinkinfo.donation_amount)
+        
+        if(results===undefined){
+          res.send({error:"Try Again"})
+
+        }else{
+          res.send(results)
+        }
+      })
 
       
  
