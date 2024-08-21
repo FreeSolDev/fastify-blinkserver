@@ -52,7 +52,9 @@ let TransActionBuilder={
             amount: Umi.sol(amount),
           }))
           let builttx= await builder.buildWithLatestBlockhash(umi)
-          console.log(builttx)
+          if(settings.localhost){
+            console.log(builttx)
+          }
           const serialized = Buffer.from(umi.transactions.serialize(builttx)).toString('base64');
           return {transaction:serialized,message:`Succesfully Donated ${amount} sol to ${to}`}    
 
