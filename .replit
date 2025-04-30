@@ -1,0 +1,13 @@
+modules = ["nodejs-20", "bash"]
+run = "node server.js"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "node server.js"]
+
+[[ports]]
+localPort = 3002
+externalPort = 80
+exposeLocalhost = true
